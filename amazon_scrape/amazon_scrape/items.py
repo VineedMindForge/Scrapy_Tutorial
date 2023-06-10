@@ -6,9 +6,7 @@
 import scrapy
 
 
-class TutorialItem(scrapy.Item):
+class AmazonScrapeItem(scrapy.Item):
     # define the fields for your item here like:
-    Text = scrapy.Field()
-    Author = scrapy.Field()
-    Tags = scrapy.Field()
+    # name = scrapy.Field()
     pass

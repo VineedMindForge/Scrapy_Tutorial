@@ -1,13 +1,14 @@
 import scrapy
 from ..items import YtTutorialItem
 
-class book_spider(scrapy.Spider):
-    name = 'book_spider'
+class MultipageScrape(scrapy.Spider):
+    name = 'multi_page_spider'
+    page_number = 2
     start_urls = [
-        'http://books.toscrape.com/'
+        'https://books.toscrape.com/catalogue/page-1.html'
     ]
     
-    def parse(self, response):
+    def parse(self, response,):
         Items = YtTutorialItem()
         all_class_elements = response.css('.col-lg-3')
         for book in all_class_elements:
@@ -20,7 +21,8 @@ class book_spider(scrapy.Spider):
             Items['price'] = price 
 
             yield Items
-        next_page = response.css('.next a::attr(href)').get()
+        next_page = f'https://books.toscrape.com/catalogue/page-{MultipageScrape.page_number}.html'
         
-        if next_page is not None:
+        if MultipageScrape.page_number<=10:
+            MultipageScrape.page_number+=1
             yield response.follow(next_page,callback=self.parse)
